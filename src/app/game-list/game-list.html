@@ -1,12 +1,5 @@
 <h2>Game List</h2>
 
 @for (game of games(); track game.id) {
-  <div>
-    <h3>{{ game.name }}</h3>
-    <p>Genre: {{ game.genre }}</p>
-    <p>Platform: {{ game.platform }}</p>
-    <p>Release Date: {{ game.releaseYear }}</p>
-    <p>Rating: {{ game.rating }}</p>
-    <p>Description: {{ game.description }}</p>
-  </div>
+  <app-game-card [game]="game"></app-game-card>
 }
