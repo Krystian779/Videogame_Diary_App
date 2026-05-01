@@ -11,10 +11,13 @@ export class GameService {
   private apiURL = 'https://api.rawg.io/api/games';
   private apiKey = '5a6d05f7bbc444b7b287a0b4551a6594';
 
-  games = signal<Game[]>([]);
-  currentPage = signal(1);
-  searchTerm = signal('');
+  games = signal<Game[]>([]); // Signal to store the list of games
 
+  currentPage = signal(1); // Signal storing the current page
+
+  searchTerm = signal(''); // Signal storing the current search term
+
+  // Fetch games from the API based on the current page and search term
   getGames(page: number = 1): void {
     this.currentPage.set(page);
 
@@ -25,6 +28,7 @@ export class GameService {
       });
   }
 
+  // Search for games based on a search term
   searchGames(search: string, page: number = 1): void {
     this.searchTerm.set(search);
     this.currentPage.set(page);
@@ -36,6 +40,7 @@ export class GameService {
       });
   }
 
+  // Methods to navigate between pages
   nextPage(): void {
     if (this.searchTerm()) {
       this.searchGames(this.searchTerm(), this.currentPage() + 1);
