@@ -4,7 +4,9 @@
 /dist
 /tmp
 /out-tsc
+build/
 /bazel-out
+
 
 # Node
 /node_modules
@@ -19,6 +21,9 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+
+# Environment files (API keys etc.)
+src/environments/environment*.ts
 
 # Visual Studio Code
 .vscode/*

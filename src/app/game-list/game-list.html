@@ -1,0 +1,9 @@
+<h2>Game List</h2>
+
+@for (game of gameService.games(); track game.id) {
+  <app-game-card [game]="game"></app-game-card>
+}
+
+<button (click)="gameService.previousPage()">Previous</button>
+<span>Page {{ gameService.currentPage() }}</span>
+<button (click)="gameService.nextPage()">Next</button>
