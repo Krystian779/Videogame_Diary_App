@@ -33,8 +33,10 @@ export class GameService {
     this.searchTerm.set(search);
     this.currentPage.set(page);
 
+    const encodedSearch = encodeURIComponent(search); // encoding search text so that spaces dont cause errors to the url
+
     this.http
-      .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&search=${search}&page=${page}`)
+      .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&search=${encodedSearch}&page=${page}`)
       .subscribe((data) => {
         this.games.set(data.results);
       });
