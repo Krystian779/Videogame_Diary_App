@@ -1,38 +1,56 @@
-import { Injectable, signal } from '@angular/core';
-import { Game } from '../models/game';
+import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Game, RawgResponse } from '../models/game';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  private _games = signal<Game[]>([
-    {
-      id: 1,
-      name: 'Red Dead Redemption 2',
-      genre: 'Action Adventure',
-      platform: 'PC',
-      releaseYear: 2018,
-      rating: 5,
-      coverImageUrl: 'images/rdr2.jpg',
-      description: 'A cinematic open-world western focused on story, exploration and character.',
-    },
+  private http = inject(HttpClient);
 
-    {
-      id: 2,
-      name: 'Subnautica',
-      genre: 'Survival',
-      platform: 'PC',
-      releaseYear: 2018,
-      rating: 4.5,
-      coverImageUrl: 'images/subnautica.jpg',
-      description: 'An underwater survival game focused on exploration and discovery.',
-    },
-  ]);
+  private apiURL = 'https://api.rawg.io/api/games';
+  private apiKey = '5a6d05f7bbc444b7b287a0b4551a6594';
 
-  games = this._games.asReadonly(); // Expose games as a readonly signal
+  games = signal<Game[]>([]);
+  currentPage = signal(1);
+  searchTerm = signal('');
 
-  // Method to get a game by its ID
-  getGameById(id: number): Game | undefined {
-    return this._games().find((game) => game.id === id);
+  getGames(page: number = 1): void {
+    this.currentPage.set(page);
+
+    this.http
+      .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&page=${page}`)
+      .subscribe((data) => {
+        this.games.set(data.results);
+      });
+  }
+
+  searchGames(search: string, page: number = 1): void {
+    this.searchTerm.set(search);
+    this.currentPage.set(page);
+
+    this.http
+      .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&search=${search}&page=${page}`)
+      .subscribe((data) => {
+        this.games.set(data.results);
+      });
+  }
+
+  nextPage(): void {
+    if (this.searchTerm()) {
+      this.searchGames(this.searchTerm(), this.currentPage() + 1);
+    } else {
+      this.getGames(this.currentPage() + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage() > 1) {
+      if (this.searchTerm()) {
+        this.searchGames(this.searchTerm(), this.currentPage() - 1);
+      } else {
+        this.getGames(this.currentPage() - 1);
+      }
+    }
   }
 }

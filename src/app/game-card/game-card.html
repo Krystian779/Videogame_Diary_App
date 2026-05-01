@@ -1,13 +1,7 @@
 <div class="game-card">
-  <img [src]="game().coverImageUrl" [alt]="game().name" />
+  <img [src]="game().background_image" [alt]="game().name" />
 
   <h3>{{ game().name }}</h3>
 
-  <p>{{ game().genre }} | {{ game().platform }}</p>
-
-  <p>Released: {{ game().releaseYear }}</p>
-
   <p>Rating: {{ game().rating }}/5</p>
-
-  <p>{{ game().description }}</p>
 </div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service';
 import { GameCard } from '../game-card/game-card';
 
@@ -8,8 +8,10 @@ import { GameCard } from '../game-card/game-card';
   templateUrl: './game-list.html',
   styleUrl: './game-list.css',
 })
-export class GameList {
-  private gameService = inject(GameService);
+export class GameList implements OnInit {
+  gameService = inject(GameService);
 
-  games = this.gameService.games;
+  ngOnInit(): void {
+    this.gameService.getGames();
+  }
 }
