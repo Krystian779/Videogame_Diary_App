@@ -1,7 +1,9 @@
-<div class="game-card">
-  <img [src]="game().background_image" [alt]="game().name" />
+<a [routerLink]="['/game', game().id]" class="game-card-link">
+  <div class="game-card">
+    <img [src]="game().background_image" [alt]="game().name" />
 
-  <h3>{{ game().name }}</h3>
+    <h3>{{ game().name }}</h3>
 
-  <p>Rating: {{ game().rating }}/5</p>
-</div>
+    <p>Rating: {{ game().rating }}/5</p>
+  </div>
+</a>

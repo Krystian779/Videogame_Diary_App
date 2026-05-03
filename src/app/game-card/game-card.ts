@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Game } from '../models/game';
 
 @Component({
   selector: 'app-game-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './game-card.html',
   styleUrl: './game-card.css',
 })

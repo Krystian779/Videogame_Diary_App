@@ -1,1 +1,14 @@
-<p>game-details works!</p>
+@if (gameService.selectedGame(); as game) {
+  <div class="game-details">
+    <img [src]="game.background_image" [alt]="game.name" />
+
+    <h1>{{ game.name }}</h1>
+
+    <p>Released: {{ game.released }}</p>
+    <p>Rating: {{ game.rating }}/5</p>
+
+    <p [innerHTML]="game.description"></p>
+  </div>
+} @else {
+  <p>Loading game details...</p>
+}
