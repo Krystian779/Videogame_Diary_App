@@ -1,9 +1,19 @@
-<h2>Game List</h2>
+<section class="game-section">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">Popular Games</h2>
+  </div>
 
-@for (game of gameService.games(); track game.id) {
-  <app-game-card [game]="game"></app-game-card>
-}
+  <div class="game-grid">
+    @for (game of gameService.games(); track game.id) {
+      <app-game-card [game]="game"></app-game-card>
+    }
+  </div>
 
-<button (click)="gameService.previousPage()">Previous</button>
-<span>Page {{ gameService.currentPage() }}</span>
-<button (click)="gameService.nextPage()">Next</button>
+  <div class="pagination-modern mt-5">
+    <button (click)="gameService.previousPage()">← Prev</button>
+
+    <span>Page {{ gameService.currentPage() }}</span>
+
+    <button (click)="gameService.nextPage()">Next →</button>
+  </div>
+</section>

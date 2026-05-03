@@ -65,8 +65,9 @@ export class GameService {
 
   // Method to set the selected game for details view
   getGameById(id: number): void {
+    // get game object from API based on id and assign it to game variable
     this.http.get<Game>(`${this.apiURL}/${id}?key=${this.apiKey}`).subscribe((game) => {
-      this.selectedGame.set(game);
+      this.selectedGame.set(game); // set the selected game to the retrieved game object
     });
   }
 }

@@ -1,5 +1,18 @@
-<nav>
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> Home </a>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-purple" routerLink="/"> 🎮 Game Diary </a>
 
-  <a routerLink="/about" routerLinkActive="active"> About </a>
+    <div class="navbar-nav ms-auto d-flex flex-row gap-3">
+      <a
+        class="nav-link custom-link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Home
+      </a>
+
+      <a class="nav-link custom-link" routerLink="/about" routerLinkActive="active"> About </a>
+    </div>
+  </div>
 </nav>

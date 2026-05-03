@@ -1,15 +1,71 @@
-.game-card {
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  background-color: #1c1c1c;
-  color: white;
+.game-card-link {
+  display: block;
+  text-decoration: none;
 }
 
-.game-card img {
-  width: 160px;
-  height: 220px;
+.game-poster-card {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  min-height: 350px;
+  border-radius: 14px;
+  background-color: #1e1e1e;
+  border: 1px solid #2f2144;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border 0.2s ease;
+}
+
+.game-poster-card:hover {
+  transform: translateY(-6px);
+  border-color: #9b5cff;
+  box-shadow: 0 12px 30px rgba(155, 92, 255, 0.25);
+}
+
+.game-poster {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+.game-poster-card:hover .game-poster {
+  transform: scale(1.05);
+  filter: brightness(35%);
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: end;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.15));
+}
+
+.game-poster-card:hover .game-overlay {
+  opacity: 1;
+}
+
+.game-overlay h5 {
+  color: white;
+  font-weight: 700;
+  margin: 0;
+}
+
+@media (max-width: 576px) {
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .game-poster-card {
+    min-height: 230px;
+  }
 }
