@@ -17,6 +17,8 @@ export class GameService {
 
   searchTerm = signal(''); // Signal storing the current search term
 
+  selectedGame = signal<any | null>(null); // Signal to store the selected game for details view
+
   // Fetch games from the API based on the current page and search term
   getGames(page: number = 1): void {
     this.currentPage.set(page);
@@ -59,5 +61,13 @@ export class GameService {
         this.getGames(this.currentPage() - 1);
       }
     }
+  }
+
+  // Method to set the selected game for details view
+  getGameById(id: number): void {
+    // get game object from API based on id and assign it to game variable
+    this.http.get<Game>(`${this.apiURL}/${id}?key=${this.apiKey}`).subscribe((game) => {
+      this.selectedGame.set(game); // set the selected game to the retrieved game object
+    });
   }
 }

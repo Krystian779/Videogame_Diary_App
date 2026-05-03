@@ -1,0 +1,42 @@
+.game-section {
+  max-width: 1450px;
+  margin: 2rem auto 0;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1.6rem;
+}
+
+@media (min-width: 1200px) {
+  .game-grid {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+}
+
+.pagination-modern {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.pagination-modern button {
+  background: transparent;
+  border: 1px solid #3a245c;
+  color: #ccc;
+  padding: 8px 18px;
+  border-radius: 30px;
+  transition: all 0.2s ease;
+}
+
+.pagination-modern button:hover {
+  border-color: #9b5cff;
+  color: #b26cff;
+  background: rgba(155, 92, 255, 0.1);
+}
+
+.pagination-modern span {
+  color: #888;
+}

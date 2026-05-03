@@ -1,1 +1,25 @@
-<p>game-details works!</p>
+@if (gameService.selectedGame(); as game) {
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-md-5">
+        <img [src]="game.background_image" [alt]="game.name" class="img-fluid rounded-4 shadow" />
+      </div>
+
+      <div class="col-md-7">
+        <h1 class="fw-bold mb-3">
+          {{ game.name }}
+        </h1>
+
+        <p class="text-secondary">Released: {{ game.released }}</p>
+
+        <p class="fs-4 text-purple fw-bold">★ {{ game.rating }}/5</p>
+
+        <div class="mt-4 text-light" [innerHTML]="game.description"></div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="container py-5">
+    <p>Loading game details...</p>
+  </div>
+}
