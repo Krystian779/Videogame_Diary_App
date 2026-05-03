@@ -11,6 +11,8 @@ export class GameService {
   private apiURL = 'https://api.rawg.io/api/games';
   private apiKey = '5a6d05f7bbc444b7b287a0b4551a6594';
 
+  diaryGames = signal<Game[]>([]);
+
   games = signal<Game[]>([]); // Signal to store the list of games
 
   currentPage = signal(1); // Signal storing the current page
@@ -69,5 +71,21 @@ export class GameService {
     this.http.get<Game>(`${this.apiURL}/${id}?key=${this.apiKey}`).subscribe((game) => {
       this.selectedGame.set(game); // set the selected game to the retrieved game object
     });
+  }
+
+  addToDiary(game: Game): void {
+    const alreadyAdded = this.diaryGames().some((savedGame) => savedGame.id === game.id);
+
+    if (!alreadyAdded) {
+      this.diaryGames.update((currentGames) => [...currentGames, game]);
+    }
+  }
+
+  removeFromDiary(id: number): void {
+    this.diaryGames.update((currentGames) => currentGames.filter((game) => game.id !== id));
+  }
+
+  isInDiary(id: number): boolean {
+    return this.diaryGames().some((game) => game.id === id);
   }
 }
