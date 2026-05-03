@@ -15,6 +15,17 @@
         <p class="fs-4 text-purple fw-bold">★ {{ game.rating }}/5</p>
 
         <div class="mt-4 text-light" [innerHTML]="game.description"></div>
+        <button
+          class="btn btn-purple mt-3"
+          (click)="gameService.addToDiary(game)"
+          [disabled]="gameService.isInDiary(game.id)"
+        >
+          @if (gameService.isInDiary(game.id)) {
+            Added to Diary
+          } @else {
+            Add to Diary
+          }
+        </button>
       </div>
     </div>
   </div>

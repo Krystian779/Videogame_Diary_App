@@ -1,1 +1,33 @@
-<p>diary works!</p>
+<div class="container-fluid px-4 px-lg-5 py-5">
+  <section class="diary-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="fw-bold mb-2">My <span class="text-purple">Diary</span></h1>
+
+        <p class="text-secondary mb-0">Games you have saved to your diary.</p>
+      </div>
+    </div>
+
+    @if (gameService.diaryGames().length === 0) {
+      <div class="empty-diary">
+        <h3>No games added yet</h3>
+        <p>Open a game and click “Add to Diary”.</p>
+      </div>
+    } @else {
+      <div class="diary-grid">
+        @for (game of gameService.diaryGames(); track game.id) {
+          <div>
+            <app-game-card [game]="game"></app-game-card>
+
+            <button
+              class="btn btn-outline-light w-100 mt-2"
+              (click)="gameService.removeFromDiary(game.id)"
+            >
+              Remove
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</div>
