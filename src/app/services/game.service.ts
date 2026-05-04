@@ -6,9 +6,12 @@ import { Game, RawgResponse } from '../models/game';
   providedIn: 'root',
 })
 export class GameService {
+  // Variables and signals to manage game data, pagination, search term, and selected game details
+
   private http = inject(HttpClient);
 
   private apiURL = 'https://api.rawg.io/api/games';
+
   private apiKey = '5a6d05f7bbc444b7b287a0b4551a6594';
 
   diaryGames = signal<Game[]>([]);
@@ -21,12 +24,16 @@ export class GameService {
 
   selectedGame = signal<any | null>(null); // Signal to store the selected game for details view
 
+  // Methods
+
   // Fetch games from the API based on the current page and search term
   getGames(page: number = 1): void {
     this.currentPage.set(page);
 
+    //
     this.http
       .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&page=${page}`)
+      // Subscribe(Initialize 'data' variable) and set games to the results of the API call
       .subscribe((data) => {
         this.games.set(data.results);
       });
@@ -37,7 +44,7 @@ export class GameService {
     this.searchTerm.set(search);
     this.currentPage.set(page);
 
-    const encodedSearch = encodeURIComponent(search); // encoding search text so that spaces dont cause errors to the url
+    const encodedSearch = encodeURIComponent(search); // encoding search text so that spaces don't cause errors to the url
 
     this.http
       .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&search=${encodedSearch}&page=${page}`)
