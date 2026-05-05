@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Game, RawgResponse } from '../models/game';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class GameService {
 
   private apiURL = 'https://api.rawg.io/api/games';
 
-  private apiKey = '5a6d05f7bbc444b7b287a0b4551a6594';
+  private apiKey = environment.rawgApiKey;
 
   diaryGames = signal<Game[]>([]);
 
