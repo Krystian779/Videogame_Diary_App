@@ -6,6 +6,8 @@ export interface RawgResponse {
 }
 
 export interface Game {
+  _id?: string;
+  rawgId?: number;
   id: number;
   name: string;
   rating: number;

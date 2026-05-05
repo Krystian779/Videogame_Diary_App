@@ -1,4 +1,4 @@
-<a [routerLink]="['/game', game().id]" class="game-card-link">
+<a [routerLink]="['/game', game().id || game().rawgId]" class="game-card-link">
   <div class="game-poster-card">
     <img [src]="game().background_image" [alt]="game().name" class="game-poster" />
 
