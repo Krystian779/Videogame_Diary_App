@@ -27,6 +27,10 @@ export class GameService {
 
   selectedGame = signal<any | null>(null); // Signal to store the selected game for details view
 
+  message = signal(''); // Signal to store messages for user feedback
+
+  messageType = signal<'success' | 'error' | ''>(''); // Signal to store the type of message (e.g., success, error) for styling purposes
+
   // Methods
 
   // Fetch games from the API based on the current page and search term
@@ -93,15 +97,29 @@ export class GameService {
       background_image: game.background_image,
     };
 
-    this.http.post<Game>(this.backendURL, diaryGame).subscribe((savedGame) => {
-      this.diaryGames.update((currentGames) => [...currentGames, savedGame]);
+    this.http.post<Game>(this.backendURL, diaryGame).subscribe({
+      next: (savedGame) => {
+        this.diaryGames.update((currentGames) => [...currentGames, savedGame]);
+        this.setMessage(`${savedGame.name} added to diary`, 'success');
+      },
+      error: () => {
+        this.setMessage('Failed to add game to diary', 'error');
+      },
     });
   }
 
   // Remove game from MongoDB
   removeFromDiary(id: string): void {
-    this.http.delete(`${this.backendURL}/${id}`).subscribe(() => {
-      this.diaryGames.update((currentGames) => currentGames.filter((game: any) => game._id !== id));
+    this.http.delete(`${this.backendURL}/${id}`).subscribe({
+      next: () => {
+        this.diaryGames.update((currentGames) =>
+          currentGames.filter((game: any) => game._id !== id),
+        );
+        this.setMessage('Game removed from diary', 'success');
+      },
+      error: () => {
+        this.setMessage('Failed to remove game from diary', 'error');
+      },
     });
   }
 
@@ -115,5 +133,15 @@ export class GameService {
     this.http.get<Game[]>(this.backendURL).subscribe((games) => {
       this.diaryGames.set(games);
     });
+  }
+
+  setMessage(text: string, type: 'success' | 'error'): void {
+    this.message.set(text);
+    this.messageType.set(type);
+
+    setTimeout(() => {
+      this.message.set('');
+      this.messageType.set('');
+    }, 3000);
   }
 }

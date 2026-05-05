@@ -1,0 +1,32 @@
+.feedback-toast {
+  position: fixed;
+  top: 90px;
+  right: 24px;
+  z-index: 9999;
+  padding: 14px 20px;
+  border-radius: 14px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  animation: slideIn 0.25s ease;
+}
+
+.feedback-toast.success {
+  background: linear-gradient(135deg, #6f42c1, #b26cff);
+}
+
+.feedback-toast.error {
+  background: linear-gradient(135deg, #8b1e3f, #d6336c);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,9 @@
+@if (gameService.message()) {
+  <div
+    class="feedback-toast"
+    [class.success]="gameService.messageType() === 'success'"
+    [class.error]="gameService.messageType() === 'error'"
+  >
+    {{ gameService.message() }}
+  </div>
+}
