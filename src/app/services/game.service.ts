@@ -6,9 +6,14 @@ import { Game, RawgResponse } from '../models/game';
   providedIn: 'root',
 })
 export class GameService {
+  // Variables and signals to manage game data, pagination, search term, and selected game details
+
   private http = inject(HttpClient);
 
+  private backendURL = 'http://localhost:5050/diary';
+
   private apiURL = 'https://api.rawg.io/api/games';
+
   private apiKey = '5a6d05f7bbc444b7b287a0b4551a6594';
 
   diaryGames = signal<Game[]>([]);
@@ -21,12 +26,16 @@ export class GameService {
 
   selectedGame = signal<any | null>(null); // Signal to store the selected game for details view
 
+  // Methods
+
   // Fetch games from the API based on the current page and search term
   getGames(page: number = 1): void {
     this.currentPage.set(page);
 
+    //
     this.http
       .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&page=${page}`)
+      // Subscribe(Initialize 'data' variable) and set games to the results of the API call
       .subscribe((data) => {
         this.games.set(data.results);
       });
@@ -37,7 +46,7 @@ export class GameService {
     this.searchTerm.set(search);
     this.currentPage.set(page);
 
-    const encodedSearch = encodeURIComponent(search); // encoding search text so that spaces dont cause errors to the url
+    const encodedSearch = encodeURIComponent(search); // encoding search text so that spaces don't cause errors to the url
 
     this.http
       .get<RawgResponse>(`${this.apiURL}?key=${this.apiKey}&search=${encodedSearch}&page=${page}`)
@@ -73,19 +82,37 @@ export class GameService {
     });
   }
 
+  // Save game to MongoDB
   addToDiary(game: Game): void {
-    const alreadyAdded = this.diaryGames().some((savedGame) => savedGame.id === game.id);
+    const diaryGame = {
+      rawgId: game.id,
+      name: game.name,
+      rating: game.rating,
+      released: game.released,
+      background_image: game.background_image,
+    };
 
-    if (!alreadyAdded) {
-      this.diaryGames.update((currentGames) => [...currentGames, game]);
-    }
+    this.http.post<Game>(this.backendURL, diaryGame).subscribe((savedGame) => {
+      this.diaryGames.update((currentGames) => [...currentGames, savedGame]);
+    });
   }
 
-  removeFromDiary(id: number): void {
-    this.diaryGames.update((currentGames) => currentGames.filter((game) => game.id !== id));
+  // Remove game from MongoDB
+  removeFromDiary(id: string): void {
+    this.http.delete(`${this.backendURL}/${id}`).subscribe(() => {
+      this.diaryGames.update((currentGames) => currentGames.filter((game: any) => game._id !== id));
+    });
   }
 
-  isInDiary(id: number): boolean {
-    return this.diaryGames().some((game) => game.id === id);
+  // Check if RAWG game is already saved
+  isInDiary(rawgId: number): boolean {
+    return this.diaryGames().some((game: any) => game.rawgId === rawgId);
+  }
+
+  // Load saved diary games from MongoDB
+  getDiaryGames(): void {
+    this.http.get<Game[]>(this.backendURL).subscribe((games) => {
+      this.diaryGames.set(games);
+    });
   }
 }
