@@ -22,6 +22,7 @@ const diaryGameSchema = new mongoose.Schema({
   rating: Number,
   released: String,
   background_image: String,
+  status: String,
 });
 
 // create a model based on the schema

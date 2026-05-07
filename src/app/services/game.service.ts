@@ -10,25 +10,15 @@ export class GameService {
   // Variables and signals to manage game data, pagination, search term, and selected game details
 
   private http = inject(HttpClient);
-
   private backendURL = 'http://localhost:5050/diary';
-
   private apiURL = 'https://api.rawg.io/api/games';
-
   private apiKey = environment.rawgApiKey;
-
   diaryGames = signal<Game[]>([]);
-
   games = signal<Game[]>([]); // Signal to store the list of games
-
   currentPage = signal(1); // Signal storing the current page
-
   searchTerm = signal(''); // Signal storing the current search term
-
   selectedGame = signal<any | null>(null); // Signal to store the selected game for details view
-
   message = signal(''); // Signal to store messages for user feedback
-
   messageType = signal<'success' | 'error' | ''>(''); // Signal to store the type of message (e.g., success, error) for styling purposes
 
   // Methods
@@ -88,22 +78,23 @@ export class GameService {
   }
 
   // Save game to MongoDB
-  addToDiary(game: Game): void {
+  addToDiary(game: Game, status: 'played' | 'playing' | 'want to play'): void {
     const diaryGame = {
       rawgId: game.id,
       name: game.name,
       rating: game.rating,
       released: game.released,
       background_image: game.background_image,
+      status: status,
     };
 
     this.http.post<Game>(this.backendURL, diaryGame).subscribe({
       next: (savedGame) => {
         this.diaryGames.update((currentGames) => [...currentGames, savedGame]);
-        this.setMessage(`${savedGame.name} added to diary`, 'success');
+        this.setMessage(`${savedGame.name} added to ${status}`, 'success');
       },
       error: () => {
-        this.setMessage('Failed to add game to diary', 'error');
+        this.setMessage(`Failed to add game to ${status}`, 'error');
       },
     });
   }

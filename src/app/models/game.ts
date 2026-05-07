@@ -13,4 +13,5 @@ export interface Game {
   rating: number;
   background_image: string;
   released: string;
+  status?: 'played' | 'playing' | 'want to play';
 }
