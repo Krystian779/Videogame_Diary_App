@@ -1,45 +1,80 @@
 @if (gameService.selectedGame(); as game) {
-  <div class="container py-5">
-    <div class="row g-5">
-      <div class="col-md-5">
-        <img [src]="game.background_image" [alt]="game.name" class="img-fluid rounded-4 shadow" />
-      </div>
-
-      <div class="col-md-7">
-        <h1 class="fw-bold mb-3">
-          {{ game.name }}
-        </h1>
-
-        <p class="text-secondary">Released: {{ game.released }}</p>
-
-        <p class="fs-4 text-purple fw-bold">★ {{ game.rating }}/5</p>
-
-        <div class="mt-4 text-light" [innerHTML]="game.description"></div>
-        @if (gameService.isInDiary(game.id)) {
-          <button class="btn btn-secondary mt-3" disabled>Already in Library</button>
-        } @else {
-          <div class="d-flex flex-wrap gap-2 mt-3">
-            <button class="btn btn-purple" (click)="gameService.addToDiary(game, 'played')">
-              Played
-            </button>
-
-            <button class="btn btn-outline-light" (click)="gameService.addToDiary(game, 'playing')">
-              Playing
-            </button>
-
-            <button
-              class="btn btn-outline-light"
-              (click)="gameService.addToDiary(game, 'want to play')"
-            >
-              Want to Play
-            </button>
+  <div
+    class="details-background"
+    [style.background-image]="
+      'linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)), url(' +
+      (game.background_image_additional || game.background_image) +
+      ')'
+    "
+  >
+    <div class="container py-5">
+      <div class="details-card">
+        <div class="row g-5 align-items-start">
+          <div class="col-lg-5">
+            <img [src]="game.background_image" [alt]="game.name" class="details-image" />
           </div>
-        }
+
+          <div class="col-lg-7">
+            <p class="text-purple fw-bold mb-2">GAME DETAILS</p>
+
+            <h1 class="details-title">{{ game.name }}</h1>
+
+            <div class="d-flex flex-wrap gap-3 mb-4 text-secondary">
+              <span>Released: {{ game.released }}</span>
+              <span class="text-purple fw-bold">★ {{ game.rating }}/5</span>
+            </div>
+
+            <div class="details-description" [innerHTML]="game.description"></div>
+
+            @if (gameService.isInDiary(game.id)) {
+              <button class="btn btn-secondary mt-4" disabled>Already in Library</button>
+            } @else {
+              <div class="rating-panel mt-4">
+                <label class="form-label">Your Rating</label>
+
+                <select
+                  class="form-select bg-dark text-light border-secondary rating-select"
+                  [value]="userRating()"
+                  (change)="userRating.set(+$any($event.target).value)"
+                >
+                  <option [value]="5">5 ★</option>
+                  <option [value]="4">4 ★</option>
+                  <option [value]="3">3 ★</option>
+                  <option [value]="2">2 ★</option>
+                  <option [value]="1">1 ★</option>
+                </select>
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <button
+                    class="btn btn-purple"
+                    (click)="gameService.addToDiary(game, 'played', userRating())"
+                  >
+                    Played
+                  </button>
+
+                  <button
+                    class="btn btn-outline-light"
+                    (click)="gameService.addToDiary(game, 'playing', userRating())"
+                  >
+                    Playing
+                  </button>
+
+                  <button
+                    class="btn btn-outline-light"
+                    (click)="gameService.addToDiary(game, 'want to play', userRating())"
+                  >
+                    Want to Play
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
       </div>
     </div>
   </div>
 } @else {
   <div class="container py-5">
-    <p>Loading game details...</p>
+    <p class="text-secondary">Loading game details...</p>
   </div>
 }

@@ -78,7 +78,7 @@ export class GameService {
   }
 
   // Save game to MongoDB
-  addToDiary(game: Game, status: 'played' | 'playing' | 'want to play'): void {
+  addToDiary(game: Game, status: 'played' | 'playing' | 'want to play', userRating: number): void {
     const diaryGame = {
       rawgId: game.id,
       name: game.name,
@@ -86,6 +86,7 @@ export class GameService {
       released: game.released,
       background_image: game.background_image,
       status: status,
+      userRating: userRating,
     };
 
     this.http.post<Game>(this.backendURL, diaryGame).subscribe({
