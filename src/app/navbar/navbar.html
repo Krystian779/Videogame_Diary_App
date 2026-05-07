@@ -1,8 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold text-purple" routerLink="/"> 🎮 Game Diary </a>
+    <a class="navbar-brand brand-logo" routerLink="/">
+      <span class="brand-icon">🎮</span>
+      <span>Game Diary</span>
+    </a>
 
-    <div class="navbar-nav ms-auto d-flex flex-row gap-3">
+    <div class="navbar-nav ms-auto d-flex flex-row gap-4">
       <a
         class="nav-link custom-link"
         routerLink="/"
@@ -14,7 +17,7 @@
 
       <a class="nav-link custom-link" routerLink="/about" routerLinkActive="active"> About </a>
 
-      <a routerLink="/diary" class="nav-link custom-link" routerLinkActive="active"> Diary </a>
+      <a class="nav-link custom-link" routerLink="/diary" routerLinkActive="active"> Diary </a>
     </div>
   </div>
 </nav>
