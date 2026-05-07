@@ -15,17 +15,26 @@
         <p class="fs-4 text-purple fw-bold">★ {{ game.rating }}/5</p>
 
         <div class="mt-4 text-light" [innerHTML]="game.description"></div>
-        <button
-          class="btn btn-purple mt-3"
-          (click)="gameService.addToDiary(game)"
-          [disabled]="gameService.isInDiary(game.id)"
-        >
-          @if (gameService.isInDiary(game.id)) {
-            Added to Diary
-          } @else {
-            Add to Diary
-          }
-        </button>
+        @if (gameService.isInDiary(game.id)) {
+          <button class="btn btn-secondary mt-3" disabled>Already in Library</button>
+        } @else {
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <button class="btn btn-purple" (click)="gameService.addToDiary(game, 'played')">
+              Played
+            </button>
+
+            <button class="btn btn-outline-light" (click)="gameService.addToDiary(game, 'playing')">
+              Playing
+            </button>
+
+            <button
+              class="btn btn-outline-light"
+              (click)="gameService.addToDiary(game, 'want to play')"
+            >
+              Want to Play
+            </button>
+          </div>
+        }
       </div>
     </div>
   </div>
