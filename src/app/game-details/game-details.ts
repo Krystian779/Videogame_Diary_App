@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../services/game.service';
 
@@ -11,10 +11,10 @@ import { GameService } from '../services/game.service';
 export class GameDetails {
   gameService = inject(GameService);
   private route = inject(ActivatedRoute);
+  userRating = signal(5); // Signal to store the user's rating for the game
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-
     if (id) {
       this.gameService.getGameById(id);
     }
