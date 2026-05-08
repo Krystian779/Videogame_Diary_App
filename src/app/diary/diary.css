@@ -19,17 +19,21 @@
 }
 
 #removeBtn {
-  border-color: #ff0000;
+  border-color: #a40000;
   color: #ffffff;
 }
 
 #removeBtn:hover {
-  background-color: #ff0000;
+  background-color: #a40000;
   color: #ffffff;
 }
 
 .empty-diary h3 {
   color: white;
+}
+
+.rating-stars {
+  letter-spacing: -1px;
 }
 
 @media (min-width: 1200px) {

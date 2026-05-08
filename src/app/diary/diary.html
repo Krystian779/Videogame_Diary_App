@@ -15,7 +15,13 @@
         @for (game of playedGames(); track game._id) {
           <div>
             <app-game-card [game]="game"></app-game-card>
-            <p class="text-purple fw-bold mt-2 mb-1">Your Rating: ★ {{ game.userRating }}/5</p>
+            <p class="text-purple fw-bold mt-2 mb-1">
+              Your Rating:
+              <span class="text-yellow rating-stars">{{ '★'.repeat(game.userRating || 0) }}</span
+              ><span class="text-secondary rating-stars">{{
+                '★'.repeat(5 - (game.userRating || 0))
+              }}</span>
+            </p>
             <button
               class="btn btn-outline-light w-100 mt-2"
               id="removeBtn"
@@ -32,7 +38,9 @@
         @for (game of playingGames(); track game._id) {
           <div>
             <app-game-card [game]="game"></app-game-card>
-            <p class="text-purple fw-bold mt-2 mb-1">Your Rating: ★ {{ game.userRating }}/5</p>
+            <p class="text-purple fw-bold mt-2 mb-1">
+              Your Rating: <span class="text-yellow"> {{ '★'.repeat(game.userRating || 0) }}</span>
+            </p>
             <button
               class="btn btn-outline-light w-100 mt-2"
               id="removeBtn"
@@ -49,7 +57,9 @@
         @for (game of wishlistGames(); track game._id) {
           <div>
             <app-game-card [game]="game"></app-game-card>
-            <p class="text-purple fw-bold mt-2 mb-1">Your Rating: ★ {{ game.userRating }}/5</p>
+            <p class="text-purple fw-bold mt-2 mb-1">
+              Your Rating: <span class="text-yellow"> {{ '★'.repeat(game.userRating || 0) }}</span>
+            </p>
             <button
               class="btn btn-outline-light w-100 mt-2"
               id="removeBtn"
