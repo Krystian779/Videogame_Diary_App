@@ -19,8 +19,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-app.options('*', cors());
-
 // allow server to understand JSON data sent in requests
 app.use(express.json());
 
@@ -45,7 +43,7 @@ app.get('/', (req, res) => {
 });
 
 // GET all diary games from MongoDB
-app.get('/diary', async (req, res) => {
+app.get('/diary', '/prod/diary', async (req, res) => {
   try {
     const games = await DiaryGame.find();
     res.status(200).json(games);
@@ -56,7 +54,7 @@ app.get('/diary', async (req, res) => {
 });
 
 // POST a new diary game into MongoDB
-app.post('/diary', async (req, res) => {
+app.post('/diary', '/prod/diary', async (req, res) => {
   try {
     const game = new DiaryGame(req.body);
     const savedGame = await game.save();
@@ -69,7 +67,7 @@ app.post('/diary', async (req, res) => {
 });
 
 // DELETE one diary game using its MongoDB _id
-app.delete('/diary/:id', async (req, res) => {
+app.delete('/diary/:id', '/prod/diary/:id', async (req, res) => {
   try {
     const deletedGame = await DiaryGame.findByIdAndDelete(req.params.id);
 
