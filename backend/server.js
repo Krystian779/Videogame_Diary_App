@@ -17,7 +17,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('/.*/', cors(corsOptions));
 
 // allow server to understand JSON data sent in requests
 app.use(express.json());
