@@ -10,7 +10,7 @@ export class GameService {
   // Variables and signals to manage game data, pagination, search term, and selected game details
 
   private http = inject(HttpClient);
-  private backendURL = 'http://localhost:5050/diary';
+  private backendURL = 'http://54.195.152.144:5050/diary';
   private apiURL = 'https://api.rawg.io/api/games';
   private apiKey = environment.rawgApiKey;
   diaryGames = signal<Game[]>([]);
