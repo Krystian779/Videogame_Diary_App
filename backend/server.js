@@ -10,7 +10,16 @@ const app = express();
 console.log('Starting backend server...');
 
 // allow Angular frontend to call this backend API
-app.use(cors({ origin: 'https://main.d1a98jlehi68oz.amplifyapp.com' }));
+const corsOptions = {
+  origin: 'https://main.d1a98ijehi68oz.amplifyapp.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+app.options('*', cors());
 
 // allow server to understand JSON data sent in requests
 app.use(express.json());
