@@ -24,7 +24,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Environment files (API keys etc.)
-src/environments/environments.ts
+src/environments/environment.ts
 .env
 backend/.env
 
